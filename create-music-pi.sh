@@ -12,7 +12,7 @@ parted $DEV print
 
 mkdir -p root
 
-mount ${DEV}2 m
+mount ${DEV}2 root
 
 mkdir -p root/boot
 
