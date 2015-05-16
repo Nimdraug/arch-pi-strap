@@ -20,7 +20,7 @@ mount ${DEV}1 root/boot
 
 wget http://archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
 
-bsdtar -xpf ArchLinuxARM-rpi-latest.tar.gz -C root
+bsdtar -xvpf ArchLinuxARM-rpi-latest.tar.gz -C root
 
 umount root/boot
 umount root
