@@ -6,6 +6,7 @@ parted -s $DEV mklabel msdos
 parted -s $DEV mkpart primary fat16 1049kB 106
 parted -s $DEV mkpart primary ext4 106 100%
 
+mkfs.fat ${DEV}1
 mkfs.ext4 -F ${DEV}2
 
 parted $DEV print
