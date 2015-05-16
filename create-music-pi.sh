@@ -22,6 +22,8 @@ wget http://archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
 
 bsdtar -xvpf ArchLinuxARM-rpi-latest.tar.gz -C root
 
+arch-install-scripts/pacstrap root/ mpd mpc omxplayer
+
 umount root/boot
 umount root
 
