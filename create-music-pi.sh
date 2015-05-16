@@ -22,7 +22,7 @@ wget http://archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz
 
 bsdtar -xvpf ArchLinuxARM-rpi-latest.tar.gz -C root
 
-arch-install-scripts/pacstrap root/ mpd mpc omxplayer
+arch-install-scripts/pacstrap -c root/ mpd mpc
 
 mkdir -p root/media
 
