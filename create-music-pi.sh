@@ -24,6 +24,8 @@ bsdtar -xvpf ArchLinuxARM-rpi-latest.tar.gz -C root
 
 arch-install-scripts/pacstrap root/ mpd mpc omxplayer
 
+mkdir -p root/media
+
 umount root/boot
 umount root
 
