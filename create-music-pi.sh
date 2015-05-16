@@ -26,7 +26,6 @@ arch-install-scripts/pacstrap -c root/ mpd mpc
 
 mkdir -p root/media
 
-umount root/boot
-umount root
+umount -R root
 
 rm -rf root
