@@ -52,15 +52,8 @@ function install_packages
     arch-install-scripts/pacstrap -c root/ $*
 }
 
-function install_extra
-{
-    mkdir -p root/media
-}
-
 function install_system
 {
-    install_packages mpd mpc
-    install_extra
 }
 
 function cleanup_target
@@ -120,5 +113,3 @@ function main
         echo "usage: $0 device [ command ]"
     }
 }
-
-main $*
