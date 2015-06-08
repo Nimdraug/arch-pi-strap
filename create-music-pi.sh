@@ -100,10 +100,12 @@ function all
             install-base | install-system)
             {
                 setup_target $1
-                [ $2 == "install-base" ] && 
+                if [ $2 == "install-base" ]
+                then
                     install_base_with_download_check
-                ||
+                else
                     install_system
+                fi
                 cleanup_target
             };;
             *)
