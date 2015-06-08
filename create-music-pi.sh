@@ -80,7 +80,38 @@ function all
     cleanup_target
 }
 
-# !!! Change to the correct sd-card device !!!
-DEV=/dev/sda
-
-all $DEV
+[ $# -gt 0 ] && {
+    [ $# -gt 1 ] && {
+        case $2 in
+            create-part-table)
+                create_part_table $1;;
+            make-filesystems)
+                make_filesystems $1;;
+            install-base | install-system)
+            {
+                setup_target $1
+                [ $2 == "install-base" ] && {
+                    [ ! -e "ArchLinuxARM-rpi-latest.tar.gz" ] &&
+                        download_latest || {
+                            read -p "Re-download latest base (y/n)?"
+                            [ "$REPLY" == "y" ] && {
+                                rm -f "ArchLinuxARM-rpi-latest.tar.gz"
+                                download_latest
+                            }
+                        }
+                    install_base
+                } || {
+                    install_packages mpd mpc
+                    install_extra
+                }
+                cleanup_target
+            };;
+            *)
+                echo 'unkown command: $2';;
+        esac
+    } || {
+        all $1
+    }
+} || {
+    echo "usage: $0 device [ command ]"
+}
