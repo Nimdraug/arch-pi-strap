@@ -62,7 +62,14 @@ function all
     setup_target $1
     read -p "Install Base (y/n)?"
     [ "$REPLY" == "y" ] && {
-        download_latest
+        [ ! -e "ArchLinuxARM-rpi-latest.tar.gz" ] &&
+            download_latest || {
+                read -p "Re-download latest base (y/n)?"
+                [ "$REPLY" == "y" ] && {
+                    rm -f "ArchLinuxARM-rpi-latest.tar.gz"
+                    download_latest
+                }
+            }
         install_base
     }
     read -p "Install System (y/n)?"
