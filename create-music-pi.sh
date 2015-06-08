@@ -90,30 +90,35 @@ function all
     cleanup_target
 }
 
-[ $# -gt 0 ] && {
-    [ $# -gt 1 ] && {
-        case $2 in
-            create-part-table)
-                create_part_table $1;;
-            make-filesystems)
-                make_filesystems $1;;
-            install-base | install-system)
-            {
-                setup_target $1
-                if [ $2 == "install-base" ]
-                then
-                    install_base_with_download_check
-                else
-                    install_system
-                fi
-                cleanup_target
-            };;
-            *)
-                echo 'unkown command: $2';;
-        esac
+function main
+{
+    [ $# -gt 0 ] && {
+        [ $# -gt 1 ] && {
+            case $2 in
+                create-part-table)
+                    create_part_table $1;;
+                make-filesystems)
+                    make_filesystems $1;;
+                install-base | install-system)
+                {
+                    setup_target $1
+                    if [ $2 == "install-base" ]
+                    then
+                        install_base_with_download_check
+                    else
+                        install_system
+                    fi
+                    cleanup_target
+                };;
+                *)
+                    echo 'unkown command: $2';;
+            esac
+        } || {
+            all $1
+        }
     } || {
-        all $1
+        echo "usage: $0 device [ command ]"
     }
-} || {
-    echo "usage: $0 device [ command ]"
 }
+
+main $*
