@@ -34,6 +34,19 @@ function install_base
     bsdtar -xvpf ArchLinuxARM-rpi-latest.tar.gz -C root
 }
 
+function install_base_with_download_check
+{
+    [ ! -e "ArchLinuxARM-rpi-latest.tar.gz" ] &&
+        download_latest || {
+            read -p "Re-download latest base (y/n)?"
+            [ "$REPLY" == "y" ] && {
+                rm -f "ArchLinuxARM-rpi-latest.tar.gz"
+                download_latest
+            }
+        }
+    install_base
+}
+
 function install_packages
 {
     arch-install-scripts/pacstrap -c root/ $*
@@ -62,15 +75,7 @@ function all
     setup_target $1
     read -p "Install Base (y/n)?"
     [ "$REPLY" == "y" ] && {
-        [ ! -e "ArchLinuxARM-rpi-latest.tar.gz" ] &&
-            download_latest || {
-                read -p "Re-download latest base (y/n)?"
-                [ "$REPLY" == "y" ] && {
-                    rm -f "ArchLinuxARM-rpi-latest.tar.gz"
-                    download_latest
-                }
-            }
-        install_base
+        install_base_with_download_check
     }
     read -p "Install System (y/n)?"
     [ "$REPLY" == "y" ] && {
@@ -90,17 +95,9 @@ function all
             install-base | install-system)
             {
                 setup_target $1
-                [ $2 == "install-base" ] && {
-                    [ ! -e "ArchLinuxARM-rpi-latest.tar.gz" ] &&
-                        download_latest || {
-                            read -p "Re-download latest base (y/n)?"
-                            [ "$REPLY" == "y" ] && {
-                                rm -f "ArchLinuxARM-rpi-latest.tar.gz"
-                                download_latest
-                            }
-                        }
-                    install_base
-                } || {
+                [ $2 == "install-base" ] && 
+                    install_base_with_download_check
+                || {
                     install_packages mpd mpc
                     install_extra
                 }
