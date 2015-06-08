@@ -54,6 +54,8 @@ function install_packages
 
 function install_system
 {
+    # Override this function for system specific setup
+    echo "No system installation required."
 }
 
 function cleanup_target
