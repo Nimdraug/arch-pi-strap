@@ -55,13 +55,21 @@ function cleanup_target
 
 function all
 {
-    create_part_table $1
-    make_filesystems $1
+    read -p "Create Partitions (y/n)?"
+    [ "$REPLY" == "y" ] && create_part_table $1
+    read -p "Make Filesystems (y/n)?"
+    [ "$REPLY" == "y" ] && make_filesystems $1
     setup_target $1
-    download_latest
-    install_base
-    install_packages mpd mpc
-    install_extra
+    read -p "Install Base (y/n)?"
+    [ "$REPLY" == "y" ] && {
+        download_latest
+        install_base
+    }
+    read -p "Install System (y/n)?"
+    [ "$REPLY" == "y" ] && {
+        install_packages mpd mpc
+        install_extra
+    }
     cleanup_target
 }
 
