@@ -57,6 +57,12 @@ function install_extra
     mkdir -p root/media
 }
 
+function install_system
+{
+    install_packages mpd mpc
+    install_extra
+}
+
 function cleanup_target
 {
     # Unmount the SD
@@ -79,8 +85,7 @@ function all
     }
     read -p "Install System (y/n)?"
     [ "$REPLY" == "y" ] && {
-        install_packages mpd mpc
-        install_extra
+        install_system
     }
     cleanup_target
 }
@@ -97,10 +102,8 @@ function all
                 setup_target $1
                 [ $2 == "install-base" ] && 
                     install_base_with_download_check
-                || {
-                    install_packages mpd mpc
-                    install_extra
-                }
+                ||
+                    install_system
                 cleanup_target
             };;
             *)
